@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/AdidasHack/.vs
+/AdidasHack/AdidasHack.Core/bin/Debug/netcoreapp2.0
+/AdidasHack/AdidasHack.Core/obj
+/AdidasHack/AdidasHack.Infrastructure/bin/Debug/netcoreapp2.0
+/AdidasHack/AdidasHack.Infrastructure/obj
+/AdidasHack/AdidasHack.Web/bin/Debug/netcoreapp2.0
+/AdidasHack/AdidasHack.Web/obj
+/AdidasHack/DAL/bin/Debug/netcoreapp2.0
+/AdidasHack/DAL/obj
