@@ -1,4 +1,5 @@
 ﻿using AdidasHack.Core.Enums;
+using AdidasHack.Core.Models.Team;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,6 @@ namespace AdidasHack.Core.Models.User
 
         public string Sport { get; set; }
 
-        public string Team { get; set; }
+        public TeamViewModel Team { get; set; }
     }
 }
