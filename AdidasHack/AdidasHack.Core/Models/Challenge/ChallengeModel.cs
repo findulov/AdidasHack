@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AdidasHack.Core.Entities;
+using AdidasHack.Core.Models.Challenge;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AdidasHack.Core.Models
 {
@@ -15,5 +15,13 @@ namespace AdidasHack.Core.Models
         public int Pace { get; set; }
 
         public double Distance { get; set; }
+
+        public string Sport { get; set; }
+
+        public int Difficulty { get; set; }
+
+        public string Location { get; set; }
+
+        public List<ChallengeCoordinateModel> Coordinates { get; set; }
     }
 }

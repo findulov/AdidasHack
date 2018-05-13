@@ -17,6 +17,8 @@ namespace AdidasHack.Core.Entities
 
         public double Distance { get; set; }
 
+        public int Difficulty { get; set; }
+
         public int SportId { get; set; }
 
         public ICollection<ChallengeResult> Results { get; set; }

@@ -19,6 +19,7 @@ namespace DAL.Repositories
             return db.Challenges
                 .Include(x => x.Results)
                 .Include(x => x.Coordinates)
+                .Include(x => x.Sport)
                 .Where(x => x.UserId == userId)
                 .ToList();
         }
@@ -34,6 +35,7 @@ namespace DAL.Repositories
 
             return query
                 .Include(x => x.Coordinates)
+                .Include(x => x.Sport)
                 .ToList();
         }
     }

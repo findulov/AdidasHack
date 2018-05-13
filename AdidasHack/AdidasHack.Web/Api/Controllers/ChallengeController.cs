@@ -1,4 +1,5 @@
 ﻿using AdidasHack.Core.Models;
+using AdidasHack.Core.Models.Challenge;
 using AdidasHack.Infrastructure.Repositories;
 using AdidasHack.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,7 +47,15 @@ namespace AdidasHack.Web.Api.Controllers
                     Name = x.Name,
                     Distance = x.Distance,
                     Pace = x.Pace,
-                    Duration = x.DurationInSeconds
+                    Duration = x.DurationInSeconds,
+                    Sport = x.Sport.Name,
+                    Location = x.Location,
+                    Difficulty = x.Difficulty,
+                    Coordinates = x.Coordinates.Select(y => new ChallengeCoordinateModel
+                    {
+                        Latitude = y.Latitude,
+                        Longtitude = y.Longtitude
+                    }).ToList()
                 }).ToList();
 
             return Ok(challenges);
