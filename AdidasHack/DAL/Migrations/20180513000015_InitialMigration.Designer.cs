@@ -12,64 +12,15 @@ using System;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AdidasDbContext))]
-    partial class AdidasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180513000015_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.Challenge", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Location");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Challenges");
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ChallengeId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChallengeId");
-
-                    b.ToTable("ChallengeResults");
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ChallengeResultId");
-
-                    b.Property<string>("Latitude");
-
-                    b.Property<string>("Longtitude");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChallengeResultId");
-
-                    b.ToTable("ChallengeResultCoordinates");
-                });
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Identity.Role", b =>
                 {
@@ -280,30 +231,6 @@ namespace DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens");
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.Challenge", b =>
-                {
-                    b.HasOne("AdidasHack.Core.Entities.Identity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
-                {
-                    b.HasOne("AdidasHack.Core.Entities.Challenge", "Challenge")
-                        .WithMany("Results")
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
-                {
-                    b.HasOne("AdidasHack.Core.Entities.ChallengeResult", "ChallengeResult")
-                        .WithMany("Coordinates")
-                        .HasForeignKey("ChallengeResultId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Identity.User", b =>
