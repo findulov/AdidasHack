@@ -62,12 +62,12 @@ namespace AdidasHack.Web.Api.Controllers
         }
 
         [HttpGet]
-        [Route("getCoordinates")]
-        public IActionResult GetCoordinates(int challengeId)
+        [Route("getTopTenResults")]
+        public IActionResult GetTopTenResults(int challengeId)
         {
-            var coordinates = challengeCoordinatesRepository.GetByChallengeId(challengeId);
+            var results = challengeService.GetTopTenResults(challengeId);
             
-            return Ok(coordinates.Select(x => $"{x.Latitude}:{x.Longtitude}"));
+            return Ok(results);
         }
     }
 }

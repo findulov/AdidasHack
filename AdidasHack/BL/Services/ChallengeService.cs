@@ -3,6 +3,7 @@ using AdidasHack.Core.Models;
 using AdidasHack.Core.Models.Challenge;
 using AdidasHack.Infrastructure.Repositories;
 using AdidasHack.Infrastructure.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,10 +12,12 @@ namespace BL.Services
     public class ChallengeService : IChallengeService
     {
         private readonly IChallengeRepository challengeRepository;
+        private readonly IChallengeResultRepository challengeResultRepository;
 
-        public ChallengeService(IChallengeRepository challengeRepository)
+        public ChallengeService(IChallengeRepository challengeRepository, IChallengeResultRepository challengeResultRepository)
         {
             this.challengeRepository = challengeRepository;
+            this.challengeResultRepository = challengeResultRepository;
         }
         
         public IEnumerable<ChallengeModel> GetAllNearbyUser(int userId, double userLatitude, double userLongtitude, int distance)
@@ -60,6 +63,22 @@ namespace BL.Services
             }
 
             return challengeModels;
+        }
+
+        public IEnumerable<ChallengeResultModel> GetTopTenResults(int challengeId)
+        {
+            Random randomGenerator = new Random();
+
+            var challengeResults = challengeResultRepository.GetTopResultsForChallenge(10, challengeId)
+                .Select(x => new ChallengeResultModel
+                {
+                    Team = x.User.Team.Name,
+                    TeamLogoImageName = x.User.Team.LogoImageName,
+                    Points = randomGenerator.Next(50, 1200)
+                }).OrderByDescending(x => x.Points)
+                .ToList();
+
+            return challengeResults;
         }
     }
 }
