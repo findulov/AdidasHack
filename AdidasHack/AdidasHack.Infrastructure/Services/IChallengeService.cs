@@ -1,12 +1,10 @@
-﻿using AdidasHack.Core.Entities;
-using System;
+﻿using AdidasHack.Core.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AdidasHack.Infrastructure.Services
 {
     public interface IChallengeService
     {
-        IEnumerable<Challenge> GetNearby(double userLatitude, double userLongtitude, int distance);
+        IEnumerable<ChallengeModel> GetAllNearbyUser(int userId, double userLatitude, double userLongtitude, int distance);
     }
 }

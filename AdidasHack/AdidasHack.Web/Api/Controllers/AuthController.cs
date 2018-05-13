@@ -61,7 +61,8 @@ namespace AdidasHack.Web.Api.Controllers
                     return Ok(new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
-                        type = "Bearer"
+                        type = "Bearer",
+                        userId = user.Id
                     });
                 }
             }

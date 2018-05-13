@@ -24,5 +24,7 @@ namespace AdidasHack.Core.Entities.Identity
         public Gear Gear { get; set; }
 
         public ICollection<UserSport> UserSports { get; set; } = new HashSet<UserSport>();
+
+        public ICollection<ChallengeResult> ChallengeResults { get; set; } = new HashSet<ChallengeResult>();
     }
 }

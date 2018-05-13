@@ -1,4 +1,5 @@
 ﻿using AdidasHack.Core.Entities;
+using AdidasHack.Core.Models;
 using AdidasHack.Infrastructure.Repositories;
 using AdidasHack.Infrastructure.Services;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ namespace BL.Services
             this.challengeRepository = challengeRepository;
         }
         
-        public IEnumerable<Challenge> GetNearby(double userLatitude, double userLongtitude, int distance)
+        public IEnumerable<ChallengeModel> GetAllNearbyUser(int userId, double userLatitude, double userLongtitude, int distance)
         {
+            List<ChallengeModel> challengeModels = new List<ChallengeModel>();
+
             var challenges = challengeRepository.GetAllWithCoordinates();
 
             foreach (var challenge in challenges)
@@ -34,10 +37,16 @@ namespace BL.Services
 
                 if (isFound)
                 {
-                    yield return challenge;
+                    challengeModels.Add(new ChallengeModel
+                    {
+                        Id = challenge.Id
+                    });
+
                     break;
                 }
             }
+
+            return challengeModels;
         }
     }
 }

@@ -7,6 +7,8 @@ namespace AdidasHack.Infrastructure.Repositories
 {
     public interface IChallengeRepository : IBaseRepository<Challenge>
     {
-        IEnumerable<Challenge> GetAllWithCoordinates();
+        IEnumerable<Challenge> GetAllWithCoordinates(int? userId = null);
+
+        IEnumerable<Challenge> GetAllByUser(int userId);
     }
 }

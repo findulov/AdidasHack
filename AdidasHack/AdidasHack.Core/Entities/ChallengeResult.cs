@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdidasHack.Core.Entities.Identity;
+using System;
 
 namespace AdidasHack.Core.Entities
 {
@@ -11,5 +12,9 @@ namespace AdidasHack.Core.Entities
         public DateTime TimeAchieved { get; set; }
 
         public int DurationInSeconds { get; set; }
+
+        public int UserId { get; set; }
+
+        public User User { get; set; }
     }
 }

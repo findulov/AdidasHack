@@ -1,4 +1,6 @@
-﻿using AdidasHack.Infrastructure.Services;
+﻿using AdidasHack.Core.Models;
+using AdidasHack.Infrastructure.Repositories;
+using AdidasHack.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +13,32 @@ namespace AdidasHack.Web.Api.Controllers
     public class ChallengeController : BaseApiController
     {
         private readonly IChallengeService challengeService;
+        private readonly IChallengeRepository challengeRepository;
 
-        public ChallengeController(IChallengeService challengeService)
+        public ChallengeController(IChallengeRepository challengeRepository, IChallengeService challengeService)
         {
+            this.challengeRepository = challengeRepository;
             this.challengeService = challengeService;
         }
 
         [HttpGet]
-        [Route("getNearbyMe")]
-        public IActionResult GetNearbyMe(double userLatitude, double userLongtitude, int distance)
+        [Route("getAllNearbyUser")]
+        public IActionResult GetAllNearbyUser(int userId, double userLatitude, double userLongtitude, int distance)
         {
-            var challenges = challengeService.GetNearby(userLatitude, userLongtitude, distance).ToList();
+            var challenges = challengeService.GetAllNearbyUser(userId, userLatitude, userLongtitude, distance);
+
+            return Ok(challenges);
+        }
+
+        [HttpGet]
+        [Route("getAllByUser")]
+        public IActionResult GetAllByUser(int userId)
+        {
+            var challenges = challengeRepository.GetAllByUser(userId)
+                .Select(x => new ChallengeModel
+                {
+                    Id = x.Id
+                }).ToList();
 
             return Ok(challenges);
         }

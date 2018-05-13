@@ -47,6 +47,11 @@ namespace DAL.DbContexts
                 .HasOne(x => x.User)
                 .WithMany(x => x.UserSports)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChallengeResult>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.ChallengeResults)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

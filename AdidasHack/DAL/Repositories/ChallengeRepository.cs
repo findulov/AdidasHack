@@ -14,9 +14,25 @@ namespace DAL.Repositories
         {
         }
 
-        public IEnumerable<Challenge> GetAllWithCoordinates()
+        public IEnumerable<Challenge> GetAllByUser(int userId)
         {
             return db.Challenges
+                .Include(x => x.Results)
+                .Include(x => x.Coordinates)
+                .Where(x => x.UserId == userId)
+                .ToList();
+        }
+
+        public IEnumerable<Challenge> GetAllWithCoordinates(int? userId = null)
+        {
+            var query = db.Challenges.AsQueryable();
+
+            if (userId != null)
+            {
+                query = query.Where(x => x.UserId == userId.Value);
+            }
+
+            return query
                 .Include(x => x.Coordinates)
                 .ToList();
         }
