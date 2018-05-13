@@ -39,7 +39,11 @@ namespace BL.Services
                 {
                     challengeModels.Add(new ChallengeModel
                     {
-                        Id = challenge.Id
+                        Id = challenge.Id,
+                        Name = challenge.Name,
+                        Distance = challenge.Distance,
+                        Pace = challenge.Pace,
+                        Duration = challenge.DurationInSeconds
                     });
 
                     break;

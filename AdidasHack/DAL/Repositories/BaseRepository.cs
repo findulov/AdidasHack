@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntityIdentity
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntityIdentity
     {
         protected readonly AdidasDbContext db;
 
@@ -39,6 +39,11 @@ namespace DAL.Repositories
         public bool SaveChanges()
         {
             return db.SaveChanges() > 0;
+        }
+
+        public virtual T GetById(int id)
+        {
+            return db.Set<T>().FirstOrDefault(x => x.Id == id);
         }
     }
 }

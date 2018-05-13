@@ -1,6 +1,4 @@
 ﻿using AdidasHack.Core.Entities.Identity;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace AdidasHack.Core.Entities
@@ -19,8 +17,12 @@ namespace AdidasHack.Core.Entities
 
         public double Distance { get; set; }
 
+        public int SportId { get; set; }
+
         public ICollection<ChallengeResult> Results { get; set; }
 
         public ICollection<ChallengeCoordinate> Coordinates { get; set; }
+
+        public Sport Sport { get; set; }
     }
 }

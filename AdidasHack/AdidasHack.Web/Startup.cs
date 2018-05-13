@@ -86,6 +86,8 @@ namespace AdidasHack.Web
             services.AddMvc();
 
             services.AddScoped<IChallengeRepository, ChallengeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddScoped<IChallengeService, ChallengeService>();
         }
 

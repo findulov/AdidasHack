@@ -37,7 +37,11 @@ namespace AdidasHack.Web.Api.Controllers
             var challenges = challengeRepository.GetAllByUser(userId)
                 .Select(x => new ChallengeModel
                 {
-                    Id = x.Id
+                    Id = x.Id,
+                    Name = x.Name,
+                    Distance = x.Distance,
+                    Pace = x.Pace,
+                    Duration = x.DurationInSeconds
                 }).ToList();
 
             return Ok(challenges);

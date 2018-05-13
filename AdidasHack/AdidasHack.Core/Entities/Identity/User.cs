@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AdidasHack.Core.Entities.Identity
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser<int>, IBaseEntityIdentity
     {
         public string FirstName { get; set; }
 

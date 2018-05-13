@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AdidasHack.Core.Entities
 {
-    public class UserSport : BaseEntityWithoutExplicitId
+    public class UserSport : IBaseEntityWithoutExplicitId
     {
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }

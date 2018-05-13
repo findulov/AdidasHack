@@ -1,6 +1,6 @@
 ﻿namespace AdidasHack.Core.Entities
 {
-    public abstract class BaseEntityIdentity : BaseEntityWithoutExplicitId
+    public class BaseEntityIdentity : IBaseEntityIdentity
     {
         public int Id { get; set; }
     }

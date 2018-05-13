@@ -1,6 +1,6 @@
 ﻿namespace AdidasHack.Core.Entities
 {
-    public class BaseEntityWithoutExplicitId
+    public interface IBaseEntityWithoutExplicitId
     {
     }
 }
