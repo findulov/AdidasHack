@@ -87,6 +87,7 @@ namespace AdidasHack.Web
 
             services.AddScoped<IChallengeRepository, ChallengeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IChallengeCoordinatesRepository, ChallengeCoordinatesRepository>();
 
             services.AddScoped<IChallengeService, ChallengeService>();
         }

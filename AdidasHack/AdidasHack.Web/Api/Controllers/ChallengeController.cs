@@ -14,11 +14,16 @@ namespace AdidasHack.Web.Api.Controllers
     {
         private readonly IChallengeService challengeService;
         private readonly IChallengeRepository challengeRepository;
+        private readonly IChallengeCoordinatesRepository challengeCoordinatesRepository;
 
-        public ChallengeController(IChallengeRepository challengeRepository, IChallengeService challengeService)
+        public ChallengeController(
+            IChallengeRepository challengeRepository,
+            IChallengeService challengeService,
+            IChallengeCoordinatesRepository challengeCoordinatesRepository)
         {
             this.challengeRepository = challengeRepository;
             this.challengeService = challengeService;
+            this.challengeCoordinatesRepository = challengeCoordinatesRepository;
         }
 
         [HttpGet]
@@ -45,6 +50,15 @@ namespace AdidasHack.Web.Api.Controllers
                 }).ToList();
 
             return Ok(challenges);
+        }
+
+        [HttpGet]
+        [Route("getCoordinates")]
+        public IActionResult GetCoordinates(int challengeId)
+        {
+            var coordinates = challengeCoordinatesRepository.GetByChallengeId(challengeId);
+            
+            return Ok(coordinates.Select(x => $"{x.Latitude}:{x.Longtitude}"));
         }
     }
 }
