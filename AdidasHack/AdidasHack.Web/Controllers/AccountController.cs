@@ -222,6 +222,10 @@ namespace AdidasHack.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = model.Email, Email = model.Email };
+
+                user.SportId = 1;
+                user.TeamId = 1;
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

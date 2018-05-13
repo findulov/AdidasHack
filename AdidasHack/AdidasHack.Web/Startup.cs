@@ -45,14 +45,14 @@ namespace AdidasHack.Web
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddAuthentication()
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie()
-            .AddJwtBearer(options =>
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "AdidasHack",
@@ -60,6 +60,8 @@ namespace AdidasHack.Web
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Aghj2345tfa78hfbxgw453ry"))
                 };
             });
+
+            services.AddAuthorization();
 
             services.AddCors(options =>
             {

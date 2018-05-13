@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace AdidasHack.Web.Api.Controllers
 {
     [Route("api/auth")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AuthController : BaseApiController
     {
         private readonly SignInManager<User> signInManager;
@@ -23,7 +24,6 @@ namespace AdidasHack.Web.Api.Controllers
             this.signInManager = signInManager;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         [Route("test")]
         public IActionResult Test()

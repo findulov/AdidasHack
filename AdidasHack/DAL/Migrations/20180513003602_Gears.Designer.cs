@@ -12,9 +12,10 @@ using System;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AdidasDbContext))]
-    partial class AdidasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180513003602_Gears")]
+    partial class Gears
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,8 +147,6 @@ namespace DAL.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<int?>("GearId");
-
                     b.Property<int>("Gender");
 
                     b.Property<string>("LastName");
@@ -180,8 +179,6 @@ namespace DAL.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GearId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -352,10 +349,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Identity.User", b =>
                 {
-                    b.HasOne("AdidasHack.Core.Entities.Gear", "Gear")
-                        .WithMany()
-                        .HasForeignKey("GearId");
-
                     b.HasOne("AdidasHack.Core.Entities.Sport")
                         .WithMany("Users")
                         .HasForeignKey("SportId")

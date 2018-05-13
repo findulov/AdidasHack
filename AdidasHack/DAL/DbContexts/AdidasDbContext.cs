@@ -24,6 +24,10 @@ namespace DAL.DbContexts
 
         public DbSet<ChallengeResultCoordinate> ChallengeResultCoordinates { get; set; }
 
+        public DbSet<Gear> Gears { get; set; }
+
+        public DbSet<GearAccessory> GearAccessories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
