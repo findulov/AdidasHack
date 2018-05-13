@@ -10,6 +10,21 @@ namespace DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Gears",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Bottom = table.Column<string>(nullable: true),
+                    Shoes = table.Column<string>(nullable: true),
+                    Top = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gears", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -52,6 +67,26 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GearAccessories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GearId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GearAccessories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GearAccessories_Gears_GearId",
+                        column: x => x.GearId,
+                        principalTable: "Gears",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
@@ -84,6 +119,7 @@ namespace DAL.Migrations
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
+                    GearId = table.Column<int>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
@@ -94,7 +130,7 @@ namespace DAL.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
-                    SportId = table.Column<int>(nullable: false),
+                    SportId = table.Column<int>(nullable: true),
                     TeamId = table.Column<int>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
@@ -103,15 +139,43 @@ namespace DAL.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Users_Gears_GearId",
+                        column: x => x.GearId,
+                        principalTable: "Gears",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Users_Sports_SportId",
                         column: x => x.SportId,
                         principalTable: "Sports",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Users_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Challenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DurationInSeconds = table.Column<int>(nullable: false),
+                    Location = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Challenges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Challenges_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,6 +289,68 @@ namespace DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ChallengeCoordinates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ChallengeId = table.Column<int>(nullable: false),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longtitude = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChallengeCoordinates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChallengeCoordinates_Challenges_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChallengeResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ChallengeId = table.Column<int>(nullable: false),
+                    DurationInSeconds = table.Column<int>(nullable: false),
+                    TimeAchieved = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChallengeResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChallengeResults_Challenges_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeCoordinates_ChallengeId",
+                table: "ChallengeCoordinates",
+                column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeResults_ChallengeId",
+                table: "ChallengeResults",
+                column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Challenges_UserId",
+                table: "Challenges",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GearAccessories_GearId",
+                table: "GearAccessories",
+                column: "GearId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
@@ -251,6 +377,11 @@ namespace DAL.Migrations
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_GearId",
+                table: "Users",
+                column: "GearId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -283,6 +414,15 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ChallengeCoordinates");
+
+            migrationBuilder.DropTable(
+                name: "ChallengeResults");
+
+            migrationBuilder.DropTable(
+                name: "GearAccessories");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
@@ -301,10 +441,16 @@ namespace DAL.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "Challenges");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Gears");
 
             migrationBuilder.DropTable(
                 name: "Sports");

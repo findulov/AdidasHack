@@ -22,7 +22,7 @@ namespace DAL.DbContexts
 
         public DbSet<ChallengeResult> ChallengeResults { get; set; }
 
-        public DbSet<ChallengeResultCoordinate> ChallengeResultCoordinates { get; set; }
+        public DbSet<ChallengeCoordinate> ChallengeCoordinates { get; set; }
 
         public DbSet<Gear> Gears { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿@using AdidasHack.Web.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@using AdidasHack.Core.Entities.Identity
+@inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

@@ -14,6 +14,7 @@ using AdidasHack.Web.Models;
 using AdidasHack.Web.Models.AccountViewModels;
 using AdidasHack.Web.Services;
 using AdidasHack.Core.Entities.Identity;
+using AdidasHack.Core.Entities;
 
 namespace AdidasHack.Web.Controllers
 {
@@ -223,7 +224,7 @@ namespace AdidasHack.Web.Controllers
             {
                 var user = new User { UserName = model.Email, Email = model.Email };
 
-                user.SportId = 1;
+                user.UserSports.Add(new UserSport() { SportId = 1 });
                 user.TeamId = 1;
 
                 var result = await _userManager.CreateAsync(user, model.Password);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
 namespace AdidasHack.Core.Entities
 {
@@ -9,6 +8,8 @@ namespace AdidasHack.Core.Entities
 
         public Challenge Challenge { get; set; }
 
-        public ICollection<ChallengeResultCoordinate> Coordinates { get; set; }
+        public DateTime TimeAchieved { get; set; }
+
+        public int DurationInSeconds { get; set; }
     }
 }

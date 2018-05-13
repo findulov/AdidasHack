@@ -17,14 +17,12 @@ namespace AdidasHack.Core.Entities.Identity
 
         public int TeamId { get; set; }
 
-        public int SportId { get; set; }
-
         public int? GearId { get; set; }
         
         public Team Team { get; set; }
 
         public Gear Gear { get; set; }
 
-        public ICollection<UserSport> UserSports { get; set; }
+        public ICollection<UserSport> UserSports { get; set; } = new HashSet<UserSport>();
     }
 }

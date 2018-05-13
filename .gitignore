@@ -12,3 +12,5 @@
 /AdidasHack/AdidasHack.Web/obj
 /AdidasHack/DAL/bin/Debug/netcoreapp2.0
 /AdidasHack/DAL/obj
+/AdidasHack/BL/bin/Debug/netcoreapp2.0
+/AdidasHack/BL/obj

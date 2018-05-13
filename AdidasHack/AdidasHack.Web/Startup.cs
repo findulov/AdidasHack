@@ -1,7 +1,11 @@
 ﻿using AdidasHack.Core.Entities.Identity;
+using AdidasHack.Infrastructure.Repositories;
+using AdidasHack.Infrastructure.Services;
 using AdidasHack.Web.Models;
 using AdidasHack.Web.Services;
+using BL.Services;
 using DAL.DbContexts;
+using DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 
 namespace AdidasHack.Web
@@ -73,7 +78,15 @@ namespace AdidasHack.Web
                 .Build());
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Adidas Hack API", Version = "v1" });
+            });
+
             services.AddMvc();
+
+            services.AddScoped<IChallengeRepository, ChallengeRepository>();
+            services.AddScoped<IChallengeService, ChallengeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +108,13 @@ namespace AdidasHack.Web
             app.UseAuthentication();
 
             app.UseCors("CorsPolicy");
+
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseMvc(routes =>
             {

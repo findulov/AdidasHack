@@ -12,8 +12,8 @@ using System;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AdidasDbContext))]
-    [Migration("20180513001954_Challenges")]
-    partial class Challenges
+    [Migration("20180513013948_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,8 @@ namespace DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DurationInSeconds");
 
                     b.Property<string>("Location");
 
@@ -40,12 +42,34 @@ namespace DAL.Migrations
                     b.ToTable("Challenges");
                 });
 
+            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeCoordinate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ChallengeId");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longtitude");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("ChallengeCoordinates");
+                });
+
             modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ChallengeId");
+
+                    b.Property<int>("DurationInSeconds");
+
+                    b.Property<DateTime>("TimeAchieved");
 
                     b.HasKey("Id");
 
@@ -54,22 +78,36 @@ namespace DAL.Migrations
                     b.ToTable("ChallengeResults");
                 });
 
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
+            modelBuilder.Entity("AdidasHack.Core.Entities.Gear", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ChallengeResultId");
+                    b.Property<string>("Bottom");
 
-                    b.Property<string>("Latitude");
+                    b.Property<string>("Shoes");
 
-                    b.Property<string>("Longtitude");
+                    b.Property<string>("Top");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChallengeResultId");
+                    b.ToTable("Gears");
+                });
 
-                    b.ToTable("ChallengeResultCoordinates");
+            modelBuilder.Entity("AdidasHack.Core.Entities.GearAccessory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("GearId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GearId");
+
+                    b.ToTable("GearAccessories");
                 });
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Identity.Role", b =>
@@ -115,6 +153,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<int?>("GearId");
+
                     b.Property<int>("Gender");
 
                     b.Property<string>("LastName");
@@ -137,7 +177,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("SportId");
+                    b.Property<int?>("SportId");
 
                     b.Property<int>("TeamId");
 
@@ -147,6 +187,8 @@ namespace DAL.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GearId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -291,6 +333,14 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeCoordinate", b =>
+                {
+                    b.HasOne("AdidasHack.Core.Entities.Challenge", "Challenge")
+                        .WithMany("Coordinates")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
                 {
                     b.HasOne("AdidasHack.Core.Entities.Challenge", "Challenge")
@@ -299,20 +349,23 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
+            modelBuilder.Entity("AdidasHack.Core.Entities.GearAccessory", b =>
                 {
-                    b.HasOne("AdidasHack.Core.Entities.ChallengeResult", "ChallengeResult")
-                        .WithMany("Coordinates")
-                        .HasForeignKey("ChallengeResultId")
+                    b.HasOne("AdidasHack.Core.Entities.Gear", "Gear")
+                        .WithMany("GearAccessories")
+                        .HasForeignKey("GearId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Identity.User", b =>
                 {
+                    b.HasOne("AdidasHack.Core.Entities.Gear", "Gear")
+                        .WithMany()
+                        .HasForeignKey("GearId");
+
                     b.HasOne("AdidasHack.Core.Entities.Sport")
                         .WithMany("Users")
-                        .HasForeignKey("SportId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SportId");
 
                     b.HasOne("AdidasHack.Core.Entities.Team", "Team")
                         .WithMany("Users")

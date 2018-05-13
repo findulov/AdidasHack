@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.2.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.2" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AdidasHack.Core\AdidasHack.Core.csproj" />
     <ProjectReference Include="..\AdidasHack.Infrastructure\AdidasHack.Infrastructure.csproj" />
+    <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
 

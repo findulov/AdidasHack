@@ -55,12 +55,13 @@ namespace AdidasHack.Web.Api.Controllers
                         issuer: "AdidasHack",
                         audience: "AdidasHack",
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(30),
+                        expires: DateTime.Now.AddHours(24),
                         signingCredentials: creds);
 
                     return Ok(new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token)
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        type = "Bearer"
                     });
                 }
             }

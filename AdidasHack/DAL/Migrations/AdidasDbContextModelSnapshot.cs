@@ -26,9 +26,15 @@ namespace DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("Distance");
+
+                    b.Property<int>("DurationInSeconds");
+
                     b.Property<string>("Location");
 
                     b.Property<string>("Name");
+
+                    b.Property<int>("Pace");
 
                     b.Property<int>("UserId");
 
@@ -39,6 +45,24 @@ namespace DAL.Migrations
                     b.ToTable("Challenges");
                 });
 
+            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeCoordinate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ChallengeId");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longtitude");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("ChallengeCoordinates");
+                });
+
             modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
                 {
                     b.Property<int>("Id")
@@ -46,29 +70,15 @@ namespace DAL.Migrations
 
                     b.Property<int>("ChallengeId");
 
+                    b.Property<int>("DurationInSeconds");
+
+                    b.Property<DateTime>("TimeAchieved");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChallengeId");
 
                     b.ToTable("ChallengeResults");
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ChallengeResultId");
-
-                    b.Property<string>("Latitude");
-
-                    b.Property<string>("Longtitude");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChallengeResultId");
-
-                    b.ToTable("ChallengeResultCoordinates");
                 });
 
             modelBuilder.Entity("AdidasHack.Core.Entities.Gear", b =>
@@ -170,7 +180,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("SportId");
+                    b.Property<int?>("SportId");
 
                     b.Property<int>("TeamId");
 
@@ -326,19 +336,19 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeCoordinate", b =>
+                {
+                    b.HasOne("AdidasHack.Core.Entities.Challenge", "Challenge")
+                        .WithMany("Coordinates")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResult", b =>
                 {
                     b.HasOne("AdidasHack.Core.Entities.Challenge", "Challenge")
                         .WithMany("Results")
                         .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdidasHack.Core.Entities.ChallengeResultCoordinate", b =>
-                {
-                    b.HasOne("AdidasHack.Core.Entities.ChallengeResult", "ChallengeResult")
-                        .WithMany("Coordinates")
-                        .HasForeignKey("ChallengeResultId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -358,8 +368,7 @@ namespace DAL.Migrations
 
                     b.HasOne("AdidasHack.Core.Entities.Sport")
                         .WithMany("Users")
-                        .HasForeignKey("SportId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SportId");
 
                     b.HasOne("AdidasHack.Core.Entities.Team", "Team")
                         .WithMany("Users")
